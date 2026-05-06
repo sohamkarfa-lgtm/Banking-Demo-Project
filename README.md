@@ -1,2 +1,2 @@
 # Banking-Demo-Project
-It is for learning purposes
+This is for learning purposes.
