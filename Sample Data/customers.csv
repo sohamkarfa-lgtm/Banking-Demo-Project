@@ -1,0 +1,6 @@
+customer_id,name,email,operation,updated_at
+1,John Doe,john@example.com,INSERT,2024-01-01
+2,Alice Smith,alice@example.com,INSERT,2024-01-01
+3,Bob Lee,bob@example.com,UPDATE,2024-01-02
+4,Eva Green,eva@example.com,INSERT,2024-01-03
+5,Tom Hardy,tom@example.com,DELETE,2024-01-04
