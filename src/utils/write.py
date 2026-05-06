@@ -2,12 +2,12 @@ class Writer:
     def __init__(self):
         pass
 
-    def write_stream(self, df, table, checkpoint):
-        return (df.writeStream
+    def write_bronze(self, df, table, checkpoint):
+        return (df.write
                 .format("delta")
-                .option("checkpointLocation", checkpoint)
-                .trigger(availableNow=True)
-                .toTable(table))
+                .mode("append")
+                .option("mergeSchema", "true")
+                .saveAsTable(table))
 
     def write_table(self, df, table):
         df.write.mode("overwrite").saveAsTable(table)

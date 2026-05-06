@@ -9,12 +9,12 @@ class BronzePipeline(BasePipeline):
 
     def run(self, entity):
         try:
-            df = self.reader.read_stream(self.path_utils.raw_path(entity))
+            df = self.reader.read_csv(self.path_utils.raw_path(entity))
 
             table = f"{self.config.catalog}.bronze.{entity}"
             checkpoint = self.path_utils.checkpoint_path(entity, "bronze")
 
-            self.writer.write_stream(df, table, checkpoint)
+            self.writer.write_bronze(df, table, checkpoint)
 
             self.monitoring.log(entity, "bronze", "SUCCESS")
 

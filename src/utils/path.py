@@ -3,7 +3,7 @@ class PathUtils:
         self.config = config
 
     def raw_path(self, entity):
-        return f"{self.config.raw_volume}/{entity}"
+        return f"{self.config.raw_volume}/{entity}.csv"
 
     def checkpoint_path(self, entity, layer):
         return f"{self.config.checkpoint_base}/{layer}/{entity}"
