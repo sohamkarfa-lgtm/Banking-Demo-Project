@@ -1,9 +1,23 @@
--- Total transaction amount per customer
-SELECT customer_id, SUM(amount) total_amount
-FROM banking_catalog.gold.transaction_fact
-GROUP BY customer_id;
+#Customer Transactions & Balances#
+SELECT
+  COALESCE(t.customer_id, a.customer_id) AS customer_id,
+  COALESCE(SUM(t.amount), 0) AS total_amount,
+  COALESCE(SUM(a.balance), 0) AS total_balance
+FROM
+  banking_catalog.gold.transaction_fact t
+    FULL OUTER JOIN banking_catalog.gold.account_dim a
+      ON t.customer_id = a.customer_id
+GROUP BY
+  COALESCE(t.customer_id, a.customer_id)
 
--- Account balances
-SELECT customer_id, SUM(balance)
-FROM banking_catalog.gold.account_dim
-GROUP BY customer_id;
+#Daily Transaction Trends#
+SELECT
+  timestamp AS transaction_date,
+  COUNT(*) AS transaction_count,
+  SUM(amount) AS daily_revenue
+FROM
+  banking_catalog.gold.transaction_fact
+GROUP BY
+  timestamp
+ORDER BY
+  timestamp
