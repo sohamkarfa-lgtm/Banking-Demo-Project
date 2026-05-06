@@ -1,5 +1,6 @@
 CREATE CATALOG IF NOT EXISTS banking_catalog;
 
+CREATE SCHEMA IF NOT EXISTS banking_catalog.raw;
 CREATE SCHEMA IF NOT EXISTS banking_catalog.bronze;
 CREATE SCHEMA IF NOT EXISTS banking_catalog.silver;
 CREATE SCHEMA IF NOT EXISTS banking_catalog.gold;
