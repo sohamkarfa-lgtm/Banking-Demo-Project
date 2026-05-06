@@ -1,0 +1,31 @@
+resources:
+  jobs:
+    Banking_Demo_Project_Job:
+      name: Banking Demo Project Job
+      tasks:
+        - task_key: ingestion_bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/soham.karfa@knowit.se/Banking-Demo-Project/notebooks/01_bronze_notebook
+            source: WORKSPACE
+        - task_key: silver
+          depends_on:
+            - task_key: ingestion_bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/soham.karfa@knowit.se/Banking-Demo-Project/notebooks/02_silver_notebook
+            source: WORKSPACE
+        - task_key: gold
+          depends_on:
+            - task_key: silver
+          notebook_task:
+            notebook_path: /Workspace/Users/soham.karfa@knowit.se/Banking-Demo-Project/notebooks/03_gold_notebook
+            source: WORKSPACE
+        - task_key: BI_Dashboard
+          depends_on:
+            - task_key: gold
+          dashboard_task:
+            subscription: {}
+            warehouse_id: c378a26d68e431a7
+            dashboard_id: 01f14943acb71338835b8281875773eb
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
