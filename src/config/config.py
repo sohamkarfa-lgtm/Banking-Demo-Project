@@ -3,3 +3,4 @@ class Config:
         self.catalog = "banking_catalog"
         self.raw_volume = "/Volumes/banking_catalog/raw/sample_data"
         self.checkpoint_base = "/Volumes/banking_catalog/bronze/checkpoints"
+        self.backup_volume = "/Volumes/banking_catalog/raw/backup"

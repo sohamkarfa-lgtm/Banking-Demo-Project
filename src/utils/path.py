@@ -7,3 +7,6 @@ class PathUtils:
 
     def checkpoint_path(self, entity, layer):
         return f"{self.config.checkpoint_base}/{layer}/{entity}"
+    
+    def backup_base_path(self):
+        return self.config.backup_volume
