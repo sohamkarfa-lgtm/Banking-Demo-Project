@@ -26,6 +26,12 @@ resources:
             subscription: {}
             warehouse_id: c378a26d68e431a7
             dashboard_id: 01f14943acb71338835b8281875773eb
+        - task_key: raw_file_mover
+          depends_on:
+            - task_key: ingestion_bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/soham.karfa@knowit.se/Banking-Demo-Project/notebooks/04_backup_source_files_notebook
+            source: WORKSPACE
       queue:
         enabled: true
       performance_target: PERFORMANCE_OPTIMIZED
