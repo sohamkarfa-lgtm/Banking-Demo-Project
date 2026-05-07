@@ -1,0 +1,12 @@
+# Staging Environment Configuration
+# Override variables for staging environment
+
+variables:
+  environment: staging
+  notebook_path: /Workspace/Shared/banking-demo-staging
+  node_type: i3.xlarge
+  num_workers: 3
+
+targets:
+  staging:
+    profile: BANKING_DEMO_STAGING

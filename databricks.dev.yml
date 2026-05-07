@@ -1,0 +1,12 @@
+# Development Environment Configuration
+# Override variables for dev environment
+
+variables:
+  environment: dev
+  notebook_path: /Workspace/Users/YOUR_EMAIL@company.com/banking-demo-dev
+  node_type: i3.xlarge
+  num_workers: 2
+
+targets:
+  dev:
+    profile: BANKING_DEMO

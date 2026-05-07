@@ -1,0 +1,12 @@
+# Production Environment Configuration
+# Override variables for production environment
+
+variables:
+  environment: prod
+  notebook_path: /Workspace/Shared/banking-demo-prod
+  node_type: i3.2xlarge
+  num_workers: 4
+
+targets:
+  prod:
+    profile: BANKING_DEMO_PROD
