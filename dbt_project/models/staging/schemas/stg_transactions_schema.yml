@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: "Staged transactions data from silver layer"
+    columns:
+      - name: transaction_id
+        description: "Unique identifier for the transaction"
+        tests:
+          - unique
+          - not_null
+      - name: account_id
+        description: "Reference to the account for which the transaction occurred"
+        tests:
+          - not_null
+      - name: amount
+        description: "Transaction amount"
+        tests:
+          - not_null
+      - name: timestamp
+        description: "Timestamp when the transaction occurred"
+        tests:
+          - not_null

@@ -1,0 +1,28 @@
+sources:
+  - name: databricks_silver
+    database: banking_catalog
+    schema: silver
+    tables:
+      - name: customers
+        description: "Customer table in the silver layer"
+        columns:
+          - name: customer_id
+            description: "customer_id"
+            constraints:
+              - type: primary_key
+
+      - name: accounts
+        description: "Account table in the silver layer"
+        columns:
+          - name: account_id
+            description: "account_id"
+            constraints:
+              - type: primary_key
+
+      - name: transactions
+        description: "Transaction table in the silver layer"
+        columns:
+          - name: transaction_id
+            description: "transaction_id"
+            constraints:
+              - type: primary_key

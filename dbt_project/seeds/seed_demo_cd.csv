@@ -1,0 +1,3 @@
+id,cd_name,cd_value,insert_dt,update_dt
+1,Account_Type,SAVINGS,2026-05-04,9999-12-31
+2,Account_Type,CURRENT,2026-05-04,9999-12-31

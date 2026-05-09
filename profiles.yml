@@ -1,0 +1,11 @@
+demo_dbt_profile:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      host: https://dbc-9e35ae41-b738.cloud.databricks.com/
+      http_path: /sql/1.0/warehouses/c378a26d68e431a7
+      token: dapib4ace57387709c76d6df63d0e371299b
+      catalog: banking_catalog
+      schema: dbt
+      threads: 1

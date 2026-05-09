@@ -1,0 +1,22 @@
+
+    
+    
+    
+    create or replace table `banking_catalog`.`dbt_seed`.`seed_demo_cd` (`id` bigint ,`cd_name` string ,`cd_value` string ,`insert_dt` date ,`update_dt` date )
+    
+    using delta
+  
+    
+    
+    
+    
+    
+  ;
+    -- dbt seed --
+    
+          insert overwrite `banking_catalog`.`dbt_seed`.`seed_demo_cd` values
+          (%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s)
+      
+
+;
+  

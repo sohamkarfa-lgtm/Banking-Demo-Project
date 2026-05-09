@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_accounts
+    description: "Staged accounts data from silver layer with SCD Type 2 tracking"
+    columns:
+      - name: account_id
+        description: "Unique identifier for the account"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Reference to the customer who owns the account"
+        tests:
+          - not_null
+      - name: account_type
+        description: "Type of account (e.g., checking, savings, credit)"
+        tests:
+          - not_null
+      - name: account_balance
+        description: "Current balance of the account"
+        tests:
+          - not_null
+      - name: updated_at
+        description: "Timestamp when the account was last updated"
+        tests:
+          - not_null
+      - name: is_current
+        description: "Flag indicating if this is the current record (SCD Type 2)"
+        tests:
+          - not_null
+      - name: end_date
+        description: "End date for historical records (null for current records)"
