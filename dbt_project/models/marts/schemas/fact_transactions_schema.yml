@@ -1,0 +1,145 @@
+version: 2
+
+models:
+  - name: fact_transactions
+    description: >
+      Gold-layer fact table capturing every banking transaction.
+      Each row represents one transaction joined to the current snapshot of
+      the account and customer dimensions. Additive measures (amount, credit,
+      debit) allow straight aggregation across any dimensional slice.
+    config:
+      materialized: table
+      schema: marts
+      tags:
+        - marts
+        - gold
+        - finance
+
+    columns:
+
+      # ── Surrogate / primary key ──────────────────────────────────────────
+      - name: fact_transaction_id
+        description: >
+          SHA-256 surrogate key generated from transaction_id + account_id.
+          Uniquely identifies every row in the fact table.
+        tests:
+          - unique
+          - not_null
+
+      # ── Foreign keys to dimensions ───────────────────────────────────────
+      - name: dim_account_id
+        description: >
+          Foreign key to dim_account. References the current SCD Type-2 record
+          for the account at the time the model was last refreshed.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_account')
+              field: dim_account_id
+
+      - name: dim_customer_id
+        description: >
+          Foreign key to dim_customer. References the current SCD Type-2 record
+          for the customer who owns the account.
+        tests:
+          - relationships:
+              to: ref('dim_customer')
+              field: dim_customer_id
+
+      # ── Natural / degenerate keys ────────────────────────────────────────
+      - name: transaction_id
+        description: Source-system natural key for the transaction.
+        tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: Source-system natural key for the account.
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: >
+          Source-system natural key for the customer, denormalised from
+          dim_account for convenience.
+        tests:
+          - not_null
+
+      # ── Date / time ──────────────────────────────────────────────────────
+      - name: transaction_ts
+        description: Full timestamp of the transaction (UTC).
+        tests:
+          - not_null
+
+      - name: transaction_date
+        description: Calendar date of the transaction, derived from transaction_ts.
+        tests:
+          - not_null
+
+      - name: transaction_month
+        description: First day of the calendar month in which the transaction occurred.
+        tests:
+          - not_null
+
+      - name: transaction_year
+        description: First day of the calendar year in which the transaction occurred.
+        tests:
+          - not_null
+
+      # ── Additive measures ────────────────────────────────────────────────
+      - name: transaction_amount
+        description: >
+          Raw signed transaction amount in the account's currency.
+          Positive values indicate credits (inflows); negative values indicate
+          debits (outflows).
+        tests:
+          - not_null
+
+      - name: credit_amount
+        description: >
+          Non-negative portion of transaction_amount (inflows only).
+          Zero for debit transactions. Safe to SUM across any grain.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+      - name: debit_amount
+        description: >
+          Absolute value of the negative portion of transaction_amount
+          (outflows only). Zero for credit transactions. Safe to SUM across
+          any grain.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+      # ── Carried-forward dimension attributes ─────────────────────────────
+      - name: account_type_cd
+        description: >
+          Code identifying the type of account (e.g. SAVINGS, CURRENT),
+          resolved via the seed_demo_cd lookup table in dim_account.
+
+      - name: account_balance_at_time
+        description: >
+          Account balance as recorded in the silver layer at the time of the
+          last ETL refresh. Not a point-in-time balance; use for approximate
+          reference only.
+
+      # ── Audit columns (from demo_project_audit_column macro) ─────────────
+      - name: stg_loaded_at
+        description: Timestamp when this row was loaded by dbt.
+        tests:
+          - not_null
+
+      - name: invocation_id
+        description: dbt invocation UUID that produced this row.
+        tests:
+          - not_null
+
+      - name: target_user
+        description: dbt profile name used during the run that produced this row.
+        tests:
+          - not_null

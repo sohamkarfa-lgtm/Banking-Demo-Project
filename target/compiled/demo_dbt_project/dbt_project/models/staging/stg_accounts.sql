@@ -8,7 +8,7 @@ select
     end_date,
     
   current_timestamp() as stg_loaded_at,
-  'b07be56d-ba53-4dec-a113-cdf774c6366c' as invocation_id,
+  '4116260a-32c9-494b-9608-130b6d52b62f' as invocation_id,
   'demo_dbt_profile' as target_user
 
 from `banking_catalog`.`silver`.`accounts`
